@@ -1,0 +1,25 @@
+{% extends "notes/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<form action="{% url 'salvou' %}" class="form-card" method="post">
+  {% csrf_token %}
+  <input type="hidden" value="{{note.id}}" name="id">
+  <input
+    class="form-card-title"
+    type="text"
+    name="titulo"
+    placeholder="Titulo"
+    value="{{note.title}}"
+  />
+  <input
+      class="autoresize"
+      name="detalhes"
+      placeholder="Digite o conteudo..."
+      value="{{note.content}}"
+  />
+  <button class="btn" type="submit">Atualizar</button>
+</form>
+
+{% endblock %}

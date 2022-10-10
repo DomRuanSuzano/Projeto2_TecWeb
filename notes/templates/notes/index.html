@@ -2,23 +2,45 @@
 {% load static %}
 
 {% block content %}
-<img src="{% static 'notes/img/logo-getit.png' %}" />
-<p>Como o Post-it, mas com outro verbo</p>
 
-<form method="post">
+<form class="form-card" method="post">
   {% csrf_token %}
-  <label for="titulo">Título</label>
-  <input id="titulo" type="text" name="titulo" />
-  <label for="detalhes">Detalhes</label>
-  <textarea id="detalhes" name="detalhes"></textarea>
-  <input type="submit" />
+  <input
+    class="form-card-title"
+    type="text"
+    name="titulo"
+    placeholder="Titulo"
+  />
+  <textarea
+      class="autoresize"
+      name="detalhes"
+      placeholder="Digite o conteudo..."
+  ></textarea>
+  <button class="btn" type="submit">Criar</button>
 </form>
-
-<ul>
-    {% for note in notes %}
-    <li>{{ note.title }}
+<ul class="card-container">
+  {% for note in notes %}
+  <li class="card">
+    <h3 class="card-title">
+      {{ note.title }}
+    </h3>
+    <div class="card-content">
+      <p>
         {{ note.content }}
-    </li>
-    {% endfor %}
+      </p>
+    </div>
+    <div class="icones">
+      <form action="{% url 'delete' %}" method="post">
+        {% csrf_token %}
+        <button class="botoes" name="id" value="{{note.id}}">Excluir</button>
+      </form>
+      <form action="{% url 'update' %}" method="post">
+        {% csrf_token %}
+        <button class="botoes" name="id" value="{{note.id}}">Editar</button>
+      </form>
+    </div>
+  </li>
+  {% endfor %}
 </ul>
+
 {% endblock %}
